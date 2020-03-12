@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<!-- saved from url=(0055)https://www.cse.unsw.edu.au/~cs9444/19T3/hw1/index.html -->
+<html class="gr__cse_unsw_edu_au"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>COMP9444 Project 1</title>
+</head>
+<body lang="EN" data-gr-c-s-loaded="true">
+<h2 align="center">COMP9444 Neural Networks and Deep Learning</h2>
+<h2 align="center">Term 3, 2019</h2>
+<h3 align="center">Project 1 - Gradient Descent and PyTorch</h3>
+<p align="center">
+Due: Sunday 27 October, 23:59 pm
+<br align="center">
+Marks: 16% of final assessment
+</p><p>This assignment is divided into three parts:</p>
+<ul>
+<li>Part 1 contains simple PyTorch questions designed to get you started and familiar with the automarking environment</li>
+<li>Part 2 involves creating a single-layer Neural Network (i.e. linear model) in NumPy, without using PyTorch.</li>
+<li>Part 3 involves implementing specific network structures to recognize handwritten Japanese Hiragana characters.</li>
+</ul>
+<h2 id="provided-files">Provided Files</h2>
+<p>Copy the archive <a href="https://www.cse.unsw.edu.au/~cs9444/19T3/hw1/hw1.zip"><code>hw1.zip</code></a> into your own filespace and unzip it. This should create a directory <code>hw1</code> with two subdirectories: <a href="https://www.cse.unsw.edu.au/~cs9444/19T3/hw1/hw1/src/"><code>src</code></a> and <a href="https://www.cse.unsw.edu.au/~cs9444/19T3/hw1/hw1/data/"><code>data</code></a>. Then type:</p>
+<p><code>cd hw1/src</code></p>
+<p>You will see three skeleton files <code>part1.py</code>, <code>part2.py</code> and <code>part3.py</code>.</p>
+<p>Your task is to complete these files according to the specifications in this document, as well as in the comments in the files themselves. Each file contains functions or classes marked <code>TODO:</code> which correspond to the marking scheme shown below. This document contains general information for each task, with in-code comments supplying more detail. Each task in this assignment is sufficiently specified to have only one correct answer (although there may be multiple ways to implement it). If you feel a requirement is not clear you may ask for additional information on the FAQ, or the course forum.</p>
+<h2 id="marking-scheme">Marking Scheme</h2>
+<p>All parts of the assignment will be automarked. Marks for each task are shown in brackets in the following table. Note that no partial marks are assigned.</p>
+<table>
+<tbody><tr class="odd">
+<th>Part 1:</th>
+<td align="right">1.</td>
+<td>[0.5]</td>
+<td>simple_addition</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="right">2.</td>
+<td>[0.5]</td>
+<td>simple_reshape</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="right">3.</td>
+<td>[0.5]</td>
+<td>simple_flat</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="right">4.</td>
+<td>[0.5]</td>
+<td>simple_transpose</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="right">5.</td>
+<td>[0.5]</td>
+<td>simple_permute</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="right">6.</td>
+<td>[0.5]</td>
+<td>simple_dot_product</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="right">7.</td>
+<td>[0.5]</td>
+<td>simple_matrix_mul</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="right">8.</td>
+<td>[0.5]</td>
+<td>broadcastable_matrix_mul</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="right">9.</td>
+<td>[0.5]</td>
+<td>simple_concatenate</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="right">10.</td>
+<td>[0.5]</td>
+<td>simple_stack</td>
+</tr>
+<tr class="odd">
+<th>Part 2:</th>
+<td align="right">1.</td>
+<td>[1]</td>
+<td>Activation</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="right">2.</td>
+<td>[1]</td>
+<td>Forward Pass</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="right">3.</td>
+<td>[1]</td>
+<td>Loss</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="right">4.</td>
+<td>[1]</td>
+<td>Error</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="right">5.</td>
+<td>[2]</td>
+<td>Backward Pass</td>
+</tr>
+<tr class="even">
+<th>Part 3:</th>
+<td align="right">1.</td>
+<td>[1]</td>
+<td>View Batch</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="right">2.</td>
+<td>[1]</td>
+<td>Loss</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="right">3.</td>
+<td>[1]</td>
+<td>FeedForward</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="right">4.</td>
+<td>[2]</td>
+<td>CNN</td>
+</tr>
+</tbody></table>
+<p>When you submit your files through give, simple submission tests will be run to test the functionality of part 1, and to check that the code you have implemented in parts 2 and 3 is in the correct format. After submissions have closed, we will run the final marking scripts, which will assign marks for each task. We will not release these final tests, however you will be able to see basic information outlining which sections of code were incorrect (if you do not receive full marks) when you view your marked assignment.</p>
+<h2 id="setting-up-your-development-environment">Setting up your development environment</h2>
+<p>If you plan to write and debug the assignment on a Unix-based laptop, the following commands may help you to install the necessary software. Note that the exact commands may vary, based on your system.</p>
+<ol type="1">
+<li><p>Create a new virtual environment:</p>
+<p><code>conda create -n COMP9444 python=3.7</code></p></li>
+<li><p>Activate it:</p>
+<p><code>conda activate COMP9444</code></p></li>
+<li><p>Install pytorch:</p>
+<p><code>conda install pytorch torchvision cpuonly -c pytorch</code></p></li>
+<li><p>Install everything else:</p>
+<p><code>conda install tqdm matplotlib</code></p></li>
+</ol>
+<p>Another option for development is Google Colabs, which is a free service from Google that allows development in hosted notebooks that are able to connect to GPU and TPU (Googles custom NN chip - faster than GPUs) hardware runtimes. If you are having trouble getting PyTorch setup you might also want to consider this option, as the hosted environments have PyTorch preinstalled. More information and a good getting started guide is <a href="https://www.marktechpost.com/2019/06/09/getting-started-with-pytorch-in-google-collab-with-free-gpu/">here</a>. It is important to note this is just an option and not something required by this course - some of the tutors are not familiar with colabs and will not be able to give troubleshooting advice for colab-specific issues. If you are in doubt, develop locally.</p>
+<h2 id="part-1-5-marks">Part 1 [5 marks]</h2>
+<p>For Part 1 of the assignment, you should work through the file <code>part1.py</code> and add functions where specified.</p>
+<h2 id="part-2-6-marks">Part 2 [6 marks]</h2>
+<p>For Part 2, you will develop a linear model to solve a binary classification task on two dimensional data. The file <a href="https://www.cse.unsw.edu.au/~cs9444/19T3/hw1/hw1/data/"><code>data/binary_classification_data.pkl</code></a> contains the data for this part. We have included the file used to generate the data as <code>data_generator.py</code>. You may examine this for your reference, or modify it if you wish to watch Gradient Decent take place on different data. Note that running this file will replace the pickle file with another stochastically generated dataset. This shouldn't cause your solution to fail, but it will cause the final output image to appear different. It is good to check that your file works with the original pickle file provided.</p>
+<p>The file <code>part2.py</code> is the one you need to modify. It contains a skeleton definition for the custom <code>LinearModel</code> class. You need to complete the appropriate functions in this class.</p>
+<p>You may modify the plotting method during development (<code>LinearModel.plot()</code>) - it may help you to visualize additional information. Prior to submission, however, verify that the expected output is being produced with the original, unaltered, code.</p>
+<p>When completed, a correct implementation should produce the following image, along with model accuracies at each training step printed to <code>stdout</code>:</p>
+<figure>
+<img src="./COMP9444 Project 1_files/part2_run1.jpg" alt="" width="630"><figcaption>Example output from a correctly implemented Part 2.</figcaption>
+</figure>
+<p>This shows the provided datapoints, along with the decision boundary produced by your model at each step during training (dotted green lines). You can see that the data is not linearly separable, however the optimal separating plane is still found. For this data and model, it is impossible to achieve 100% accuracy, and here only 92% or 94% is achieved (with one point lying very close to th boundary).</p>
+<h3 id="task-1---activation-function">Task 1 - Activation Function</h3>
+<p>Implement a sigmoid activation function. It is good practice when developing with deep learning models to constrain your code as much as possible, as the majority of errors will be silent and it is very easy to introduce bugs. Passing incorrectly shaped tensors into a matrix multiplication, or example, will not appear as on error, but will instead broadcast. For this reason, you must ensure that the activation method raises a ValueError with an appropriate error message if a list, boolean, or numpy array is passed as input. Ensure that singular numpy types (such as <code>numpy.float64</code>) can be handled.</p>
+<p>Weights and other variables should be implemented as numpy arrays, not lists. This is good practice in general when the size of a sequence is fixed.</p>
+<h3 id="task-2---forward-pass">Task 2 - Forward Pass</h3>
+<p>Implement the forward pass of the model following the structure specified. In other words, given an input, return the output of the model.</p>
+<h3 id="task-3---loss">Task 3 - Loss</h3>
+<p>Implement the cross entropy loss function for the learning algorithm to minimize. See function docstring for more information.</p>
+<h3 id="task-4---error">Task 4 - Error</h3>
+<p>Implement an error function to return the difference between target and actual output</p>
+<h3 id="task-5---backward-pass">Task 5 - Backward Pass</h3>
+<p>Here you are required to implement gradient descent without using pytorch or autograd. Although this is difficult in general, we have tried to make it easier in this case by sticking to a single-layer network and making use of other simplifications (see function docstring for details).</p>
+<h2 id="part-3-5-marks">Part 3 [5 marks]</h2>
+<p>Here you will be implementing networks to recognize handwritten Hiragana symbols. The dataset to be used is Kuzushiji-MNIST or KMNIST for short. The paper describing the dataset is available <a href="https://arxiv.org/pdf/1812.01718.pdf">here</a>. It is worth reading, but in short: significant changes occurred to the language when Japan reformed their education system in 1868, and the majority of Japanese today cannot read texts published over 150 years ago. This paper presents a dataset of handwritten, labeled examples of this old-style script (Kuzushiji). Along with this dataset, however, they also provide a much simpler one, containing 10 Hiragana characters with 7000 samples per class. This is the dataset we will be using.</p>
+<figure>
+<img src="./COMP9444 Project 1_files/modern_vs_old.jpg" alt=""><figcaption>Text from 1772 (left) compared to 1900 showing the standardization of written Japanese.</figcaption>
+</figure>
+<p>A large amount of code has been provided for you. You should spend time understanding this code. A simple model has also been provided for your reference that should make the other tasks easier. It is a good idea to use the same structure provided in this model in the code you write. The model is a linear model very similar to what you implemented in Part 1, with all inputs mapped directly to 10 ReLU activated nodes. Note that it is not identical to the model in Part 1 - do not try to reverse engineer Part 1 from this model. Technically the activation function here is redundant - however we have included it as an example of how to make use of <code>torch.nn.functional</code>.</p>
+<p>When run, <code>part3.py</code> will train three models (one provided, two you will implement), a Linear Network, Feed Forward network, and a Convolutional Network, for 10 epochs each. A full run of <code>part3.py</code> can take up to an hour - however during development it is a good idea to train for fewer epochs initially, until you observe roughly correct behaviour.</p>
+<p>A correct run over all epochs should produce the following plot:</p>
+<figure>
+<img src="./COMP9444 Project 1_files/part3_run.jpg" alt="" width="640"><figcaption>Output plot for Part 3. On this dataset, learning occurs very fast, with a large amount occurring in one epoch. The increasing capacity and corresponding performance of each network type is clearly visible.</figcaption>
+</figure>
+<h2 id="contsraints">Contraints</h2>
+<ol type="1">
+<li><p>Do not use <code>torch.nn.Sequential</code>, instead use <code>torch.nn.functional</code> to setup your network. An example of a linear net is present.</p></li>
+<li><p>In this assignment, all code will run on a CPU, regardless of which version of pytorch is installed. You may set code to run on a GPU during development if you wish to speed up training (although this wont make a big difference for this assignment), but ensure you do not have <code>.cuda()</code> or <code>.to()</code> calls in the code you submit.</p></li>
+<li><p>Shuffling in the Dataloader has been set to off for testing purposes - in practice this would be set to True. Do not modify this.</p></li>
+<li><p>Do not modify the training and testing code (exception: you may wish to comment out the code displaying the sample images. This code is marked with the comment <code># Can comment the below out during development</code> ).</p></li>
+<li><p>Do not change the names of files.</p></li>
+<li><p>Naming: Standard convention is to name fully connected layers <code>fc1</code>, <code>fc2</code> etc, where the number indicates depth. Similarly for convolutional layers, <code>conv1</code>, <code>conv2</code> should be used.</p></li>
+</ol>
+<h3 id="task-1---view-batch">Task 1 - View Batch</h3>
+<p>Whenever developing deep learning models, it is absolutely critical to begin with a complete understanding of the data you are using. For this reason, implement a function that returns an 8x8 tiling of a batch of 64 images produced by one of the dataloaders, and the corresponding labels in a numpy array. Once implemented correctly, you should see he image shown below when running <code>part3.py</code>.
+</p><figure>
+<img src="./COMP9444 Project 1_files/view_batch.jpg" alt="">
+<figcaption>First batch of images from KMNIST tiled in 8x8 grid, produced by a correct <code>view_batch</code>
+</figcaption>
+</figure>
+You should also see the following printed to <code>stdout</code>:<br>
+<pre>[[8 7 0 1 4 2 4 8]
+ [1 1 5 1 0 5 7 6]
+ [1 7 9 5 7 3 7 5]
+ [6 6 2 7 6 0 9 6]
+ [1 5 9 5 8 0 0 8]
+ [8 6 7 7 7 8 1 9]
+ [6 0 5 1 1 1 3 2]
+ [2 6 4 3 5 5 4 6]]
+</pre>
+Note that there are no part marks for a partially correct network structure. Do not assume inputs have been flattened prior to being fed into the forward pass.<p></p>
+<h3 id="task-2---loss">Task 2 - Loss</h3>
+<p>Implement a correct loss function (<code>NNModel.lossfn</code>). You may (and should) make calls to PyTorch here. See the comment for further information.</p>
+<h3 id="task-3---feedforward-network">Task 3 - FeedForward Network</h3>
+<p>Implement a feedforward network according to the specifications in the accompanying docstring.</p>
+<h3 id="task-4---convolutional-network">Task 4 - Convolutional Network</h3>
+<p>Implement a convolutional network according to the specifications in the accompanying docstring.</p>
+<h2 id="submission">Submission</h2>
+<p>You should submit by typing</p>
+<p>give cs9444 hw1 part1.py part2.py part3.py</p>
+<p>You can submit as many times as you like - later submissions will overwrite earlier ones. You can check that your submission has been received by using the following command:</p>
+<p>9444 classrun -check</p>
+<p>The submission deadline is Sunday 27 October, 23:59. 15% penalty will be applied to the (maximum) mark for every 24 hours late after the deadline.</p>
+<p>Additional information may be found in the <a href="https://www.cse.unsw.edu.au/~cs9444/19T3/hw1/faq.shtml">FAQ</a> and will be considered as part of the specification for the project. You should check this page regularly.</p>
+<h2 id="general-advice">General advice</h2>
+<ol type="1">
+<li><p>We will be using PyTest to automatically grade submissions. While you don't have to write your own tests, doing so will allow you be sure certain sections are implemented correctly. You can use any tooling you would like for this. Make sure not to submit your test files.</p></li>
+<li><p>It is possible to have the correct output when running the files with incorrect or incomplete implementations that will not receive full marks. You should rigorously test your code based on the specifications listed here, as well as within the provided file.</p></li>
+<li><p>Try not to over-engineer a solution. In general, most of the methods that are required to be implemented can be done in a few lines. If you find yourself writing &gt; 50 lines of code, you are almost certainly off track. Step back and rethink what is really required.</p></li>
+<li><p>Address the failing tests in order - if there is something preventing you're model from being loaded, this will also cause all subsequent tests to fail. Once the model is loaded successfully, these other tests may pass.</p></li>
+<li><p>Ensure that you are passing submission tests early, as if a submission cannot be run, it will receive 0 marks for that part. There will be no special consideration given in these cases. Automated testing marks are final. "I uploaded the wrong version at the last minute" is not a valid excuse for a remark. For this reason, ensure you are in the process of uploading your solution at least 2 hours before the deadline. Do not leave this assignment to the last minute, as it is likely that close to the deadline, the wait time on submission test results will increase.</p></li>
+</ol>
+<p>EXTRA CHALLENGE: You might find it interesting to try Part 3 on the full dataset. This contains many additional challenges such as class imbalances that will need to be addressed. For good accuracy you will also need a much more complex network (i.e. 10's of hidden layers - a good starting point is a Resnet architecture). There is no extra marks for this, but if you get something interesting going please come to the consultations and show one of the tutors, or email the course admin (<code>alex.long@unsw.edu.au</code>).</p>
+<h3 id="plagiarism-policy">Plagiarism Policy</h3>
+<p>Group submissions will not be allowed for this assignment. Your program must be entirely your own work. Plagiarism detection software will be used to compare all submissions pairwise and serious penalties will be applied, particularly in the case of repeat offences.</p>
+<p>
+<b>DO NOT COPY FROM OTHERS; DO NOT ALLOW ANYONE TO SEE YOUR CODE</b>
+</p><p>
+Please refer to the
+<a href="https://student.unsw.edu.au/plagiarism">UNSW Policy on Academic Integrity and Plagiarism</a>
+if you require further clarification on this matter.
+</p><p>
+</p><p>
+Good luck!
+<br>
+</p><hr>
+
+
+</body></html>
